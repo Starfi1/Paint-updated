@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 
-public class PathShape extends Shape {
+public class PathShape extends AreaShape {
     private Path path;
     private int xEnd;
     private int yEnd;
