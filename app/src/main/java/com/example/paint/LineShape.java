@@ -3,7 +3,7 @@ package com.example.paint;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Color;
-public class LineShape extends Shape {
+public class LineShape extends AreaShape {
 
     private int xEnd;
     private int yEnd;

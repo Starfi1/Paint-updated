@@ -2,6 +2,7 @@ package com.example.paint;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,40 +18,15 @@ public class PaintActivity extends AppCompatActivity {
     private PaintView paintView;
     private ImageView colorPic;
     Bitmap bitmap;
+    Dialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paint);
-
-        colorPic=findViewById(R.id.pallete);
-        colorPic.setDrawingCacheEnabled(true);
-        colorPic.buildDrawingCache(true);
-        colorPic.setOnTouchListener(new View.OnTouchListener() {
-            String color = "";
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
-                    bitmap = colorPic.getDrawingCache();
-                    int pixels = bitmap.getPixel((int) event.getX(), (int) event.getY());
-
-                    int r = Color.red(pixels);
-                    int g = Color.green(pixels);
-                    int b = Color.blue(pixels);
-                    color = "#" + Integer.toHexString(pixels);
-                }
-                paintView.setColor(color);
-
-                return true;
-            }
-
-
-        });
-
         frame = findViewById(R.id.frm);
         paintView = new PaintView(this);
         frame.addView(paintView);
+
     }
 
     public void addLine(View view) {
@@ -71,6 +47,45 @@ public class PaintActivity extends AppCompatActivity {
     {
         String color = view.getTag().toString();
         paintView.setColor(color);
+    }
+    public void showDialog(View view)
+    {
+        dialog=new Dialog(this);
+        dialog.setContentView(R.layout.colordialoglayout);
+        dialog.setTitle("choose color");
+        dialog.setCancelable(true);
+
+        colorPic=dialog.findViewById(R.id.colorPalettePic);
+        colorPic.setDrawingCacheEnabled(true);
+        colorPic.buildDrawingCache(true);
+        colorPic.setOnTouchListener(new View.OnTouchListener() {
+            String color = "";
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
+                    bitmap = colorPic.getDrawingCache();
+                    int pixels = bitmap.getPixel((int) event.getX(), (int) event.getY());
+
+                    int r = Color.red(pixels);
+                    int g = Color.green(pixels);
+                    int b = Color.blue(pixels);
+                    color = "#" + Integer.toHexString(pixels);
+                }
+                paintView.setColor(color);
+
+
+                return true;
+            }
+
+
+        });
+
+        dialog.show();
+    }
+    public void showBiggest(View view) {
+        paintView.showBiggest();
     }
     public void changeFill(View view){paintView.changeFill();}
 

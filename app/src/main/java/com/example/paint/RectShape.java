@@ -4,12 +4,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-public class RectShape extends Shape {
+public class RectShape extends AreaShape  {
 
     private int xEnd;
     private int yEnd;
     private int Size;
     private boolean fillOrNot;
+    public static float currentSize = 0;
 
     public RectShape(int x, int y, String color,int size,boolean fill) {
         super(x, y, color);
@@ -33,5 +34,17 @@ public class RectShape extends Shape {
         paint.setStrokeWidth(Size);
         super.draw(canvas,paint);
         canvas.drawRect(x,y,xEnd,yEnd,paint);
+        calculateArea();
+
+        PaintView.shapes.get(PaintView.shapes.size() - 1).sizeShape = currentSize;
+
     }
+    public void calculateArea() {
+
+        int width = Math.abs(Math.max(x, xEnd) - Math.min(x, xEnd));
+        int height = Math.abs(Math.max(x, xEnd) - Math.min(x, xEnd));
+        currentSize = width * height;
+
+    }
+
 }
